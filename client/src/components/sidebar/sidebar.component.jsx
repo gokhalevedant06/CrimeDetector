@@ -60,10 +60,7 @@ const Sidebar = ({ toggleScreenState }) => {
   return (
     <SidebarContainer theme={theme}>
       <IconButton onClick={toggleSidebar}>
-        <Icon
-          icon="ci:menu-alt-03"
-          fontSize={"2em"}
-        />
+        <Icon icon="ci:menu-alt-03" fontSize={"2em"} />
       </IconButton>
       <SidebarDrawer
         disableEnforceFocus
@@ -86,7 +83,7 @@ const Sidebar = ({ toggleScreenState }) => {
               readOnly
               size="large"
             />
-          </div> */}  
+          </div> */}
           <div className="sidebar-btns">
             <SidebarBtn url="/">
               <Icon
@@ -95,7 +92,7 @@ const Sidebar = ({ toggleScreenState }) => {
               />{" "}
               DASHBOARD
             </SidebarBtn>
-            <SidebarBtn url="/explore">
+            <SidebarBtn url="/admin">
               <Icon icon="clarity:users-solid" color="#FF3B81" />
               ADMINS
             </SidebarBtn>

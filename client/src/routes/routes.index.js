@@ -43,6 +43,10 @@ export default function Router() {
           path: "/test",
           element: <Test />,
         },
+        {
+          path: "/admin",
+          element: <AddAdmin />,
+        },
       ],
     },
   ]);
@@ -54,7 +58,12 @@ const MainLayout = Loadable(
 );
 
 //pages
-const Home = Loadable(lazy(() => import("../pages/dashboard/dashboard.component")));
+const Home = Loadable(
+  lazy(() => import("../pages/dashboard/dashboard.component"))
+);
 
 const Test = Loadable(lazy(() => import("../components/test/test.component")));
 const Login = Loadable(lazy(() => import("../pages/login/login.component")));
+const AddAdmin = Loadable(
+  lazy(() => import("../pages/addAdmin/AddAdmin.component"))
+);
