@@ -12,7 +12,7 @@ def test_route():
     a = requests.get("https://v2.jokeapi.dev/joke/Any")
     # print(a.json())
     data = a.json()
-    print(data)
+    print(data["json"])
     return "success";
 
 @app.route("/<string:pagename>")

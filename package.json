@@ -1,0 +1,25 @@
+{
+  "name": "crimedetector",
+  "version": "1.0.0",
+  "description": "The state CCTV Control Room receives feeds from number of CCTV Cameras across the state. It is not possible to monitor all the camera feeds in live scenario. The solution Should be capable of reading the feeds being received from the cameras and analyse the feeds for any criminal activity.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "cd server && npm run nodemon",
+    "frontend": "cd client && npm run start",
+    "dev": "concurrently -c \"bgMagenta,bgBlue,\" npm:server npm:frontend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/10raw/CrimeDetector.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/10raw/CrimeDetector/issues"
+  },
+  "homepage": "https://github.com/10raw/CrimeDetector#readme",
+  "dependencies": {
+    "concurrently": "^7.0.0"
+  }
+}
