@@ -8,8 +8,7 @@ import {
 } from "../redux/slices/auth";
 import setToken from "../utils/setToken";
 
-
-export const SignupHandler = async (formData, dispatch, navigate) => {
+export const addAdminHandler = async (formData, dispatch, navigate) => {
   try {
     const body = JSON.stringify(formData);
     const config = {
@@ -17,9 +16,9 @@ export const SignupHandler = async (formData, dispatch, navigate) => {
         "Content-type": "application/json",
       },
     };
-    const res = await axios.post("/user/signup", body, config);
+    const res = await axios.post("/admin/addAdmin", body, config);
+    console.log(res);
     dispatch(registerSuccess());
-    navigate("/login");
   } catch (e) {
     return e;
   }
@@ -67,7 +66,6 @@ export const LoginHandler = async (formData, dispatch, isAdmin) => {
 };
 export const initializeUser = async (dispatch) => {
   //initialize jwt auth
-
 };
 
 export const logout = (dispatch) => {

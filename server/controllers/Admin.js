@@ -20,7 +20,12 @@ const addAdmin = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         password = hashedPassword;
         const admin = new Admin({ name, email, phone, password });
+
         const saveAdmin = await admin.save();
+        const user = req.user?._id;
+        const currUser = await Admin.findById(user);
+        currUser.admins.push(saveAdmin._id);
+        await currUser.save();
         if (saveAdmin) res.status(200).send("Admin created successfully");
       }
     }
@@ -68,6 +73,15 @@ const jwtVerify = async (req, res) => {
   console.log(token);
   if (!token) {
     return res.send(null);
+  }
+};
+const removeAdmin = async (req, res) => {
+  const id = req.body.id;
+  try {
+    const user = await Admin.findByIdAndDelete(id);
+    res.status(200).send({ ok: true, msg: "admin deleted successfully" });
+  } catch (e) {
+    console.log(e);
   }
 };
 
@@ -249,4 +263,5 @@ module.exports = {
   addAdmin,
   login,
   jwtVerify,
+  removeAdmin,
 };

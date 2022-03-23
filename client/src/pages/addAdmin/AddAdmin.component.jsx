@@ -22,14 +22,34 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
-
+import { useNavigate } from "react-router";
 import hide from "../../assets/hide.png";
 import del from "../../assets/del.png";
 import { Button } from "@mui/material";
+import { addAdminHandler } from "../../hooks/useAuth";
+import { useDispatch } from "react-redux";
 
 const AddAdmin = () => {
   const [open, setOpen] = useState(false);
   const [delOpen, setDelOpen] = useState(false);
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    phone: null,
+    password: "",
+    cpassword: "",
+  });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const onChangeHandler = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    console.log(data);
+    setOpen(false);
+    addAdminHandler(data, dispatch, navigate);
+  };
   return (
     <Flex
       color="white"
@@ -57,25 +77,53 @@ const AddAdmin = () => {
               <TextField
                 sx={{ width: "80%", margin: "1rem", color: "white" }}
                 id="standard-basic"
-                label="Standard"
+                label="Name"
+                name="name"
                 variant="standard"
+                onChange={(e) => onChangeHandler(e)}
               />
               <TextField
                 sx={{ width: "80%", margin: "1rem", color: "white" }}
                 id="standard-basic"
-                label="Standard"
+                label="Phone Number"
+                name="phone"
                 variant="standard"
+                onChange={(e) => onChangeHandler(e)}
               />
               <TextField
                 sx={{ width: "80%", margin: "1rem", color: "white" }}
                 id="standard-basic"
-                label="Standard"
+                label="Email"
+                name="email"
                 variant="standard"
+                onChange={(e) => onChangeHandler(e)}
+              />
+              <TextField
+                sx={{ width: "80%", margin: "1rem", color: "white" }}
+                id="standard-basic"
+                label="Password"
+                name="password"
+                variant="standard"
+                onChange={(e) => onChangeHandler(e)}
+                type="password"
+              />
+              <TextField
+                sx={{ width: "80%", margin: "1rem", color: "white" }}
+                id="standard-basic"
+                label="Comfirm Password"
+                name="cpassword"
+                variant="standard"
+                onChange={(e) => onChangeHandler(e)}
+                type="password"
               />
             </ModalBody>
 
             <ModalFooter>
-              <Button variant="contained" sx={{ backgroundColor: "#FF3B81" }}>
+              <Button
+                onClick={(e) => onSubmitHandler(e)}
+                variant="contained"
+                sx={{ backgroundColor: "#FF3B81" }}
+              >
                 Create Admin
               </Button>
             </ModalFooter>
