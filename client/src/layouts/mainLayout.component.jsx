@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Outlet } from "react-router-dom";
 
-import Header from "../components/sidebar/sidebar.component.jsx";
+import Sidebar from "../components/sidebar/sidebar.component.jsx";
 import { useSelector } from "react-redux";
 import { Page, Content } from "./mainLayout.styles";
 
@@ -31,15 +31,14 @@ const MainLayout = () => {
   return (
     <Page>
       <Context.Provider value={{ isFullScreen }}>
-        {/* <Sidebar
+        <Sidebar
           toggleScreenState={() => {
             setIsFullScreen(!isFullScreen);
           }}
-        /> */}
+        />
 
-        <Header />
-        <Content>
-          <Outlet />
+        <Content fullScreen={isFullScreen}>
+          <Outlet context={[isFullScreen]} />
         </Content>
       </Context.Provider>
     </Page>

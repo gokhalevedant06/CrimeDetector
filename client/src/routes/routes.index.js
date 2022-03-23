@@ -55,7 +55,7 @@ const MainLayout = Loadable(
 
 //pages
 const Home = Loadable(
-  lazy(() => import("../pages/home/home.component"))
+  lazy(() => import("../pages/dashboard/dashboard.component"))
 );
 
 const Test = Loadable(lazy(() => import("../components/test/test.component")));

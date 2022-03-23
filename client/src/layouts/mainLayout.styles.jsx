@@ -11,12 +11,13 @@ export const Page = styled('div')(()=>({
 
 export const Content = styled("div")(({fullScreen})=>({
     height:'96vh',
-    // width:fullScreen?'96vw':'77vw',
-    // margin:fullScreen?'2vh 5vw':'2vh 0 2vh 23vw',
-    // transition:'all 0.2s ease-in',
-    // padding:'10px',
+    width:fullScreen?'96vw':'77vw',
+    margin:fullScreen?'2vh 5vw':'2vh 0 2vh 23vw',
+    transition:'all 0.2s ease-in',
+    padding:'10px',
     width:'100vw',
     maxHeight:"96vh",
-    // overflowY:'scroll',
+    overflowY:'scroll',
+    // backgroundColor:'green'
 
 }))
