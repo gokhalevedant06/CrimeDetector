@@ -54,9 +54,7 @@ const MainLayout = Loadable(
 );
 
 //pages
-const Home = Loadable(
-  lazy(() => import("../pages/home/home.component"))
-);
+const Home = Loadable(lazy(() => import("../pages/home/home.component")));
 
 const Test = Loadable(lazy(() => import("../components/test/test.component")));
 const Login = Loadable(lazy(() => import("../pages/login/login.component")));

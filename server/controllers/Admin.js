@@ -13,15 +13,16 @@ const addAdmin = async (req, res) => {
     const adminExists = await Admin.findOne({ email: email });
     if (adminExists) {
       res.status(422).send("Admin with this email already exists");
-    }
-    if (password !== cpassword) {
-      res.status(422).send("Passwords do not match");
     } else {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      password = hashedPassword;
-      const admin = new Admin({ name, email, phone, password });
-      const saveAdmin = await admin.save();
-      if (saveAdmin) res.status(200).send("Admin created successfully");
+      if (password !== cpassword) {
+        res.status(422).send("Passwords do not match");
+      } else {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        password = hashedPassword;
+        const admin = new Admin({ name, email, phone, password });
+        const saveAdmin = await admin.save();
+        if (saveAdmin) res.status(200).send("Admin created successfully");
+      }
     }
   } catch (error) {
     console.log("Error", error);
