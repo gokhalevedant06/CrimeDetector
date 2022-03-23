@@ -9,3 +9,5 @@ def hello_world():
 @app.route("/<string:pagename>")
 def html_page(pagename  = None):
     return f"hii {pagename}"
+
+    
