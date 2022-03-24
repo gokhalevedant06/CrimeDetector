@@ -9,7 +9,8 @@ import { Avatar, useTheme, Rating, Button } from "@mui/material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-// import useAuth from "../../hooks/useAuth";
+
+import useAuth from "../../hooks/useAuth";
 //styled
 import {
   SidebarContainer,
@@ -40,6 +41,8 @@ const Sidebar = ({ toggleScreenState }) => {
   const theme = useTheme();
 
   const { user } = useSelector((state) => state.auth);
+  const {logout} = useAuth();
+
 
   // const { logout } = useAuth();
 
@@ -54,7 +57,7 @@ const Sidebar = ({ toggleScreenState }) => {
   };
 
   const handleLogout = () => {
-    //logout
+    logout();
   };
 
   return (

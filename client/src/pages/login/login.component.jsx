@@ -1,27 +1,27 @@
-import React,{useState} from "react";
+import React, { useState,useEffect } from "react";
 import { Flex, Box, Text } from "@chakra-ui/layout";
 import { Image } from "@chakra-ui/image";
 import login from "../../assets/login.png";
 import TextField from "@mui/material/TextField";
-import { Button,styled ,InputAdornment} from "@mui/material";
+import { Button, styled, InputAdornment } from "@mui/material";
 import Lottie from "react-lottie";
 import cityLottie from "../../assets/lotties/cityLottie.json";
-import {Icon} from '@iconify/react';
+import { Icon } from "@iconify/react";
+import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
-
-const CustomTextField = styled(TextField)(()=>({
-  width: "80%", 
-  margin: "1rem", 
-  color:'#cacaca',
-  '& .MuiInputLabel-root':{
-    color:'#cacaca',
+const CustomTextField = styled(TextField)(() => ({
+  width: "80%",
+  margin: "1rem",
+  color: "#cacaca",
+  "& .MuiInputLabel-root": {
+    color: "#cacaca",
   },
-  '& .MuiInput-input':{
-    color:'#cacaca',
-
+  "& .MuiInput-input": {
+    color: "#cacaca",
   },
-  '& label.Mui-focused': {
-    color: '#cacaca',
+  "& label.Mui-focused": {
+    color: "#cacaca",
   },
   "& .MuiInput-root:before": {
     borderBottom: "1px solid #cacaca",
@@ -29,13 +29,14 @@ const CustomTextField = styled(TextField)(()=>({
   "& .MuiInput-root:after": {
     borderBottom: "2px solid #cacaca",
   },
-}))
+}));
 
 const Login = () => {
-  const [data,setData] = useState({
-    email:"",
-    password:"",
-  })
+  const navigate = useNavigate();
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -45,17 +46,26 @@ const Login = () => {
     },
   };
 
+  const { login, isLoggedIn } = useAuth();
 
   const handleChange = (e) => {
     setData({
       ...data,
-      [e.target.name]:e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = () => {
     console.log(data);
-  }
+    login(data);
+  };
+
+
+  useEffect(()=>{
+    if(isLoggedIn){
+      navigate('/')
+    }
+  },[isLoggedIn])
 
   return (
     <Flex
@@ -85,12 +95,12 @@ const Login = () => {
           flexDirection="column"
           justify="center"
           alignItems="center"
-
           w="60%"
           p="6rem 2rem"
           borderRadius="10px"
           border="1px solid #ADB9C8"
           backgroundColor="#22262E"
+          boxShadow="0px 7.71233px 19.2808px rgba(35, 35, 35, 0.1)"
         >
           <Text fontSize="2.5rem" fontWeight="800" color="#FF3B81">
             Login
@@ -123,11 +133,11 @@ const Login = () => {
               padding: "0.5rem 1rem",
               fontSize: "1.2rem",
               width: "80%",
-              borderRadius:"10px",
+              borderRadius: "10px",
               marginTop: "1rem",
-              '&:hover':{
+              "&:hover": {
                 backgroundColor: "#FF3B81",
-              }
+              },
             }}
             variant="contained"
             onClick={handleSubmit}

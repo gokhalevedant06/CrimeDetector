@@ -26,7 +26,7 @@ import { useNavigate } from "react-router";
 import hide from "../../assets/hide.png";
 import del from "../../assets/del.png";
 import { Button } from "@mui/material";
-import { addAdminHandler } from "../../hooks/useAuth";
+// import { addAdminHandler } from "../../hooks/useAuth";
 import { useDispatch } from "react-redux";
 
 const AddAdmin = () => {
@@ -48,7 +48,7 @@ const AddAdmin = () => {
     e.preventDefault();
     console.log(data);
     setOpen(false);
-    addAdminHandler(data, dispatch, navigate);
+    // addAdminHandler(data, dispatch, navigate);
   };
   return (
     <Flex

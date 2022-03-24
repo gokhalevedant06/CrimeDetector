@@ -16,7 +16,7 @@ import { Button, IconButton, styled } from "@mui/material";
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
 import AddCameraModal from "./AddCameraModal";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const MainPage = styled("div")(() => ({
   width: "100%",
@@ -30,7 +30,6 @@ const MainPage = styled("div")(() => ({
 }));
 
 const CameraOverview = ({ camera }) => {
-
   const navigate = useNavigate();
   return (
     <Tr color="#cacaca">
@@ -43,7 +42,9 @@ const CameraOverview = ({ camera }) => {
         <Button
           sx={{ color: "#FF3B81", borderRadius: "5px", padding: "5px 10px" }}
           endIcon={<Icon icon="fluent:live-20-filled" />}
-          onClick={()=>{navigate('/cameras/2')}}
+          onClick={() => {
+            navigate("/cameras/2");
+          }}
         >
           STREAM
         </Button>
@@ -63,11 +64,10 @@ const CameraOverview = ({ camera }) => {
 
 const Cameras = () => {
   const [showAddModal, setShowAddModal] = useState(false);
-    
+
   const toggleAddModal = () => {
     setShowAddModal(!showAddModal);
   };
-
 
   return (
     <MainPage>
@@ -75,7 +75,13 @@ const Cameras = () => {
         <Text color="#FF3B81" fontWeight={800} fontSize="2em" mb="30px">
           CAMERAS
         </Text>
-        <Box width="90%" backgroundColor="#22262E">
+        <Box
+          width="90%"
+          backgroundColor="#22262E"
+          display="flex"
+          flexDirection="column"
+          alignItems="start"
+        >
           <Table variant="striped" colorScheme="blackAlpha">
             <Thead>
               <Th>Camera ID</Th>
@@ -92,21 +98,29 @@ const Cameras = () => {
           </Table>
           <AddCameraModal state={showAddModal} toggleModal={toggleAddModal} />
 
-          <Button
-            sx={{
-              margin: "30px 0 15px 0px",
-              backgroundColor: "#FF3B81",
-              color: "#fff",
-              padding: "5px 20px",
-              borderRadius: "5px",
-              "&:hover": {
-                backgroundColor: "#FF3B81",
-              },
-            }}
-            onClick={toggleAddModal}
+          <Flex
+            direction="row"
+            justifyContent="space-between"
+            width="100%"
+            alignItems="end"
           >
-            CONNECT NEW CAMERA
-          </Button>
+            <Button
+              sx={{
+                margin: "30px 0 15px 10px",
+                backgroundColor: "#FF3B81",
+                color: "#fff",
+                padding: "5px 20px",
+                borderRadius: "5px",
+                "&:hover": {
+                  backgroundColor: "#FF3B81",
+                },
+              }}
+              onClick={toggleAddModal}
+            >
+              CONNECT NEW CAMERA
+            </Button>
+            <Text color="#FF3B81" margin="0 15px 10px 0" fontWeight={400}>5 cameras</Text>
+          </Flex>
         </Box>
       </Flex>
     </MainPage>

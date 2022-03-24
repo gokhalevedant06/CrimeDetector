@@ -1,75 +1,52 @@
+import { useCallback } from "react";
+
+import { loginSuccess, logoutSuccess } from "../redux/slices/auth";
+import { useSnackbar } from "notistack";
+
+import { useDispatch, useSelector } from "react-redux";
+import { setSession, isValidToken } from "../utils/jwt";
 import axios from "../utils/axios";
-// import axios from 'axios';
-import {
-  initialize,
-  loginSuccess,
-  logoutSuccess,
-  registerSuccess,
-} from "../redux/slices/auth";
-import setToken from "../utils/setToken";
 
-export const addAdminHandler = async (formData, dispatch, navigate) => {
-  try {
-    const body = JSON.stringify(formData);
-    const config = {
-      headers: {
-        "Content-type": "application/json",
-      },
-    };
-    const res = await axios.post("/admin/addAdmin", body, config);
-    console.log(res);
-    dispatch(registerSuccess());
-  } catch (e) {
-    return e;
-  }
-};
+const useAuth = () => {
+  const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  // const { enqueueSnackbar } = useSnackbar();
 
-export const LoginHandler = async (formData, dispatch, isAdmin) => {
-  const body = JSON.stringify(formData);
-  const config = {
-    headers: {
-      "Content-type": "application/json",
-    },
-  };
-  if (isAdmin) {
-    var res = await axios.post("/admin/login", body, config);
-  } else {
-    var res = await axios.post("/user/login", body, config);
-  }
-  let userToken = "";
-  let adminToken = "";
-  if (res.data.ok) {
-    if (isAdmin) {
-      adminToken = res.data.token;
-      var user = res.data.AdminLogin;
-      localStorage.setItem("adminToken", JSON.stringify(adminToken));
+  const login = useCallback(async (userData) => {
+    const response = await axios.post("/admin/login", userData);
+    console.log(response, "i am login response");
+    if (!response.data.ok) {
+      // enqueueSnackbar(response.data.message, { variant: "error" });
+      return;
     } else {
-      userToken = res.data.token;
-      var user = res.data.userLogin;
-      localStorage.setItem("userToken", JSON.stringify(userToken));
+      const { token, AdminLogin } = response.data;
+      setSession(token);
+      dispatch(loginSuccess({ ...AdminLogin }));
     }
+  }, []);
 
-    console.log(user);
-    dispatch(loginSuccess(user));
-    const obj = {
-      dataMessage: res?.data?.message,
-      error: undefined,
-    };
-    return obj;
-  } else {
-    const obj = {
-      dataMessage: undefined,
-      error: res?.data?.message,
-    };
-    return obj;
-  }
-};
-export const initializeUser = async (dispatch) => {
-  //initialize jwt auth
+  const logout = useCallback(async () => {
+    setSession(null);
+    dispatch(logoutSuccess());
+  }, []);
+
+  const registerAdmin = useCallback(async (adminData) => {
+    const response = await axios.post("/admin/addAdmin", adminData);
+    if (!response.data.ok) {
+      console.log(response.data.message);
+      // enqueueSnackbar(response.data.message, { variant: "error" });
+      return;
+    } else {
+      console.log(response);
+    }
+  }, []);
+
+  return {
+    login,
+    isLoggedIn,
+    logout,
+    registerAdmin
+  };
 };
 
-export const logout = (dispatch) => {
-  localStorage.removeItem("userToken");
-
-  dispatch(logoutSuccess());
-};
+export default useAuth;
