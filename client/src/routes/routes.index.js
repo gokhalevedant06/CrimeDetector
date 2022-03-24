@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { Navigate, useRoutes } from "react-router-dom";
+import { useRoutes } from "react-router-dom";
 
 import { CircularProgress } from "@mui/material";
 
@@ -43,6 +43,18 @@ export default function Router() {
           path: "/test",
           element: <Test />,
         },
+        {
+          path: "/admin",
+          element: <AddAdmin />,
+        },
+        {
+          path: "/history",
+          element: <History />,
+        },
+        {
+          path: "/alert",
+          element: <Alert />,
+        },
       ],
     },
   ]);
@@ -54,7 +66,20 @@ const MainLayout = Loadable(
 );
 
 //pages
-const Home = Loadable(lazy(() => import("../pages/dashboard/dashboard.component")));
+const Home = Loadable(
+  lazy(() => import("../pages/dashboard/dashboard.component"))
+);
 
 const Test = Loadable(lazy(() => import("../components/test/test.component")));
 const Login = Loadable(lazy(() => import("../pages/login/login.component")));
+const AddAdmin = Loadable(
+  lazy(() => import("../pages/addAdmin/AddAdmin.component"))
+);
+
+const History = Loadable(
+  lazy(() => import("../pages/history/History.component"))
+);
+
+const Alert = Loadable(
+  lazy(() => import("../pages/alert/Alert.component"))
+)
