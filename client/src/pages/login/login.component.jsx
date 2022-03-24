@@ -4,7 +4,18 @@ import { Image } from "@chakra-ui/image";
 import login from "../../assets/login.png";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
+import Lottie from "react-lottie";
+import cityLottie from "../../assets/lotties/cityLottie.json";
+
 const Login = () => {
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: cityLottie,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
   return (
     <Flex
       justifyContent="center"
@@ -20,7 +31,7 @@ const Login = () => {
         w="50%"
         h="100vh"
       >
-        <Image w="30rem" h="20rem" src={login}></Image>
+        <Lottie options={defaultOptions} width={400} height={450} />
       </Flex>
       <Flex
         justify="center"
@@ -29,13 +40,15 @@ const Login = () => {
         h="100vh"
       >
         <Flex
-          h="auto"
-          justify="center"
-          alignItems="center"
+          h="50vh"
           flexDirection="column"
+          // justify="center"
+          justifyContent ="start"
+          alignItems="center"
+
           w="60%"
           p="6rem 2rem"
-          borderRadius="1rem"
+          borderRadius="10px"
           border="1px solid #ADB9C8"
           backgroundColor="#22262E"
         >
