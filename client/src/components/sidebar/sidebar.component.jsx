@@ -104,7 +104,7 @@ const Sidebar = ({ toggleScreenState }) => {
               <Icon icon="mdi:police-badge-outline" color="#FF3B81" />
               AUTHORITIES
             </SidebarBtn>
-            <SidebarBtn url={`/profile`}>
+            <SidebarBtn url={`/history`}>
               <Icon icon="bx:history" color="#FF3B81" />
               HISTORY
             </SidebarBtn>

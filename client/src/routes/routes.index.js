@@ -47,6 +47,10 @@ export default function Router() {
           path: "/admin",
           element: <AddAdmin />,
         },
+        {
+          path: "/history",
+          element: <History />,
+        },
       ],
     },
   ]);
@@ -66,4 +70,8 @@ const Test = Loadable(lazy(() => import("../components/test/test.component")));
 const Login = Loadable(lazy(() => import("../pages/login/login.component")));
 const AddAdmin = Loadable(
   lazy(() => import("../pages/addAdmin/AddAdmin.component"))
+);
+
+const History = Loadable(
+  lazy(() => import("../pages/history/History.component"))
 );
