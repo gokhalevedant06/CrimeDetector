@@ -96,7 +96,7 @@ const Sidebar = ({ toggleScreenState }) => {
               <Icon icon="clarity:users-solid" color="#FF3B81" />
               ADMINS
             </SidebarBtn>
-            <SidebarBtn url="/activity">
+            <SidebarBtn url="/cameras">
               <Icon icon="ant-design:video-camera-outlined" color="#FF3B81" />
               CAMERAS
             </SidebarBtn>

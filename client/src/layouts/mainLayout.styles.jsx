@@ -15,9 +15,13 @@ export const Content = styled("div")(({fullScreen})=>({
     margin:fullScreen?'2vh 5vw':'2vh 0 2vh 23vw',
     transition:'all 0.2s ease-in',
     padding:'10px',
-    width:'100vw',
+    // width:'100vw',
     maxHeight:"96vh",
     overflowY:'scroll',
-    // backgroundColor:'green'
+    // backgroundColor:fullScreen?"green":"red",
+    // border:'1px solid orange',
+    '&::-webkit-scrollbar':{
+        display:'none'
+    }
 
 }))

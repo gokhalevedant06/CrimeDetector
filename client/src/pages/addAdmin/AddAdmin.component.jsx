@@ -57,7 +57,7 @@ const AddAdmin = () => {
       alignItems="flex-start"
       flexDirection="column"
       ml="2rem"
-      w="80%"
+      w="100%"
       h="100vh"
       mt="2rem"
     >
@@ -171,7 +171,7 @@ const AddAdmin = () => {
       <Text fontWeight="800" color="#FF3B81" fontSize="3rem">
         Admins
       </Text>
-      <Box backgroundColor="#22262E" p="2rem">
+      <Box backgroundColor="#22262E" p="2rem" width="90%">
         <Table variant="striped" colorScheme="blackAlpha">
           <Thead fontWeight="400" fontSize="1.8rem">
             <Th>Id</Th>

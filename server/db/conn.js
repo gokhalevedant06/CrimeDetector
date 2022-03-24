@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 const MONGODB_URI = process.env.DATABASE
 
 // For connection with mongodb 
-mongoose.connect(MONGODB_URI,{
+mongoose.connect('mongodb+srv://AryanAdmin:shindearyan57007@cluster0.h9cql.mongodb.net/sih2k22?retryWrites=true&w=majority',{
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(()=>{

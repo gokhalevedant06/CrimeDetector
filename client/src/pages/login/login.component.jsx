@@ -1,13 +1,41 @@
-import React from "react";
+import React,{useState} from "react";
 import { Flex, Box, Text } from "@chakra-ui/layout";
 import { Image } from "@chakra-ui/image";
 import login from "../../assets/login.png";
 import TextField from "@mui/material/TextField";
-import { Button } from "@mui/material";
+import { Button,styled ,InputAdornment} from "@mui/material";
 import Lottie from "react-lottie";
 import cityLottie from "../../assets/lotties/cityLottie.json";
+import {Icon} from '@iconify/react';
+
+
+const CustomTextField = styled(TextField)(()=>({
+  width: "80%", 
+  margin: "1rem", 
+  color:'#cacaca',
+  '& .MuiInputLabel-root':{
+    color:'#cacaca',
+  },
+  '& .MuiInput-input':{
+    color:'#cacaca',
+
+  },
+  '& label.Mui-focused': {
+    color: '#cacaca',
+  },
+  "& .MuiInput-root:before": {
+    borderBottom: "1px solid #cacaca",
+  },
+  "& .MuiInput-root:after": {
+    borderBottom: "2px solid #cacaca",
+  },
+}))
 
 const Login = () => {
+  const [data,setData] = useState({
+    email:"",
+    password:"",
+  })
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -16,6 +44,19 @@ const Login = () => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+
+
+  const handleChange = (e) => {
+    setData({
+      ...data,
+      [e.target.name]:e.target.value
+    })
+  }
+
+  const handleSubmit = () => {
+    console.log(data);
+  }
+
   return (
     <Flex
       justifyContent="center"
@@ -42,8 +83,7 @@ const Login = () => {
         <Flex
           h="50vh"
           flexDirection="column"
-          // justify="center"
-          justifyContent ="start"
+          justify="center"
           alignItems="center"
 
           w="60%"
@@ -52,30 +92,45 @@ const Login = () => {
           border="1px solid #ADB9C8"
           backgroundColor="#22262E"
         >
-          <Text fontSize="3rem" fontWeight="800" color="#FF3B81">
+          <Text fontSize="2.5rem" fontWeight="800" color="#FF3B81">
             Login
           </Text>
-          <TextField
-            sx={{ width: "80%", margin: "1rem", color: "white" }}
+          <CustomTextField
             id="standard-basic"
-            label="Standard"
+            label="Email"
             variant="standard"
+            name="email"
+            onChange={handleChange}
+            // InputProps={{
+            //   startAdornment: (
+            //     <InputAdornment position="start">
+            //       <Icon icon="carbon:email" color="#cacaca" fontSize="1.2em" />
+            //     </InputAdornment>
+            //   ),
+            // }}
           />
-          <TextField
-            sx={{ width: "80%", margin: "1rem", color: "white" }}
+          <CustomTextField
             id="standard-basic"
-            label="Standard"
+            label="Password"
             variant="standard"
+            type="password"
+            name="password"
+            onChange={handleChange}
           />
           <Button
             sx={{
               backgroundColor: "#FF3B81",
               padding: "0.5rem 1rem",
               fontSize: "1.2rem",
-              width: "60%",
+              width: "80%",
+              borderRadius:"10px",
               marginTop: "1rem",
+              '&:hover':{
+                backgroundColor: "#FF3B81",
+              }
             }}
             variant="contained"
+            onClick={handleSubmit}
           >
             Login
           </Button>

@@ -55,6 +55,14 @@ export default function Router() {
           path: "/alert",
           element: <Alert />,
         },
+        {
+          path:"/cameras",
+          element:<Cameras/>
+        },
+        {
+          path:"/cameras/:id",
+          element:<CameraStream/>
+        }
       ],
     },
   ]);
@@ -82,4 +90,11 @@ const History = Loadable(
 
 const Alert = Loadable(
   lazy(() => import("../pages/alert/Alert.component"))
+)
+
+const Cameras = Loadable(
+  lazy(()=> import("../pages/cameras/cameras.component"))
+)
+const CameraStream = Loadable(
+  lazy(()=> import("../pages/cameraStream/cameraStream.component"))
 )

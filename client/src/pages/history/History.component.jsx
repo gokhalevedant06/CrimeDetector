@@ -38,7 +38,7 @@ const Crimes = [
 const History = () => {
     const renderCrimes = (location, type, date, time, idx) => {
         return (
-            <Box mb={10} backgroundColor="#22262E" p="2rem" width="100%" borderRadius={7} id={idx}>
+            <Box mb={10} backgroundColor="#22262E" p="2rem" width="90%" borderRadius={7} id={idx}>
                 <Flex   alignItems="center">
                     <Box>
                         <Image src={CrimeScreenshot} alt="crime screenshot"/>
@@ -63,7 +63,7 @@ const History = () => {
         alignItems="flex-start"
         flexDirection="column"
         ml="2rem"
-        w="80%"
+        w="100%"
         h="100vh"
         mt="2rem"
         >
