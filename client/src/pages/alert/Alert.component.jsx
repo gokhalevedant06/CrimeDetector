@@ -2,7 +2,9 @@ import React from "react";
 import { Flex, Text, Box } from "@chakra-ui/layout";
 import { Image } from "@chakra-ui/image";
 import CrimeScreenshot from '../../assets/CrimeScreenshot.png';
-import CrimeLocation from '../../assets/CrimeLocation.png';
+import CrimeLocation from '../../assets/CrimeLocationBig.png';
+import { Button } from "@chakra-ui/react";
+import {WarningTwoIcon} from '@chakra-ui/icons';
 
 const Crimes = [
     {
@@ -35,27 +37,37 @@ const Crimes = [
     }
 ]
 
-const History = () => {
-    const renderCrimes = (location, type, date, time, idx) => {
+const Alert = () => {
+    const renderAlert = (location, type, date, time, idx) => {
+        // const screenshot = new Image();
+        // const ssHeight = screenshot.height;
+        // const ssWidth = screenshot.width;
         return (
             <Box mb={10} backgroundColor="#22262E" p="2rem" width="100%" borderRadius={7} id={idx}>
-                <Flex   alignItems="center">
-                    <Box>
+                <Flex alignItems="center" height="100%">
+                    <Flex flexDirection="column" justifyContent="space-around" height="30rem">
                         <Image src={CrimeScreenshot} alt="crime screenshot"/>
-                    </Box>
-                    <Flex marginLeft="1rem" flexDirection="column" textAlign="left" justifyContent="space-between" width="100%" height="100%" >
-                        <Text marginY="0.5rem" fontSize="1.3rem" letterSpacing="0.1rem">{Crimes[0].location}</Text>
-                        <Text marginY="0.5rem" fontSize="1.3rem" letterSpacing="0.1rem">Crime type: {Crimes[0].crimeType}</Text>
-                        <Text marginY="0.5rem" fontSize="1.3rem" letterSpacing="0.1rem">Date: {Crimes[0].date}</Text>
-                        <Text marginY="0.5rem" fontSize="1.3rem" letterSpacing="0.1rem">Time: {Crimes[0].time}</Text>
+                        <p>{location}</p>
+                        <p>Crime type: {type}</p>
+                        <Button 
+                            variant="solid" 
+                            bgColor="#D32F2F"
+                            _hover={{backgroundColor: "#D75B5B"}}
+                            rightIcon={<WarningTwoIcon />}
+                            iconSpacing={3}
+                            marginX="1rem"
+                        >
+                            Alert Authorities
+                        </Button>
                     </Flex>
-                    <Flex flexDirection="column-reverse" height="11rem" alignContent="flex-start">
-                        <Image src={CrimeLocation} alt="crime location" cursor="pointer"/>
+                    <Flex flexDirection="column" ml={90} height="30rem" >
+                        <Image src={CrimeLocation} mt={4} alt="crime location" height="16rem" width="25rem"/>
                     </Flex>
                 </Flex>
             </Box>
         )
     }
+    const crime = Crimes[0];
     return (
         <Flex
         color="white"
@@ -68,13 +80,11 @@ const History = () => {
         mt="2rem"
         >
         <Text fontWeight="800" color="#FF3B81" fontSize="3rem">
-            Crime History
+            Alert
         </Text>
-        {Crimes.map((crime, idx) => {
-            return renderCrimes(crime.location, crime.crimeType, crime.date, crime.time, idx)
-        })}
+        {renderAlert(crime.location, crime.crimeType, crime.date, crime.time)}
         </Flex>
     );
 };
 
-export default History;
+export default Alert;
