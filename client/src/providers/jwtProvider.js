@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-// import { initializeUser } from "../hooks/useAuth";
+import useAuth from "../hooks/useAuth";
 // ----------------------------------------------------------------------
 
 export default function JwtProvider({ children }) {
   const dispatch = useDispatch();
+  const {initializeAuth} = useAuth();
   useEffect(() => {
+    initializeAuth();
     // initializeUser(dispatch);
   }, []);
 

@@ -8,25 +8,31 @@ const addAdmin = async (req, res) => {
   var { name, email, phone, password, cpassword } = req.body;
   console.log(req.body);
   if (!name || !email || !phone || !password || !cpassword)
-    res.status(422).send("Enter all fields");
+    res.status(200).send({ok:false,message:"Enter all fields"});
   try {
     const adminExists = await Admin.findOne({ email: email });
     if (adminExists) {
-      res.status(422).send("Admin with this email already exists");
+      res.status(200).send({ok:false,message:"Admin with this email already exists"});
     } else {
       if (password !== cpassword) {
-        res.status(422).send("Passwords do not match");
+        res.status(200).send({ok:false,message:"Passwords do not match"});
       } else {
         const hashedPassword = await bcrypt.hash(password, 10);
         password = hashedPassword;
         const admin = new Admin({ name, email, phone, password });
+        console.log(admin,"created admin");
 
         const saveAdmin = await admin.save();
         const user = req.user?._id;
         const currUser = await Admin.findById(user);
-        currUser.admins.push(saveAdmin._id);
+        currUser.admins.push(
+          {
+            admin:saveAdmin._id,
+            password:cpassword
+          }
+        );
         await currUser.save();
-        if (saveAdmin) res.status(200).send("Admin created successfully");
+        if (saveAdmin) res.status(200).send({ok:true,message:"Admin created successfully"});
       }
     }
   } catch (error) {
@@ -40,7 +46,7 @@ const login = async (req, res) => {
     if (!email || !password) {
       return res.status(200).send("Email or password cannot be blank");
     }
-    const AdminLogin = await Admin.findOne({ email: email });
+    const AdminLogin = await Admin.findOne({ email: email }).populate('admins.admin');
     if (AdminLogin) {
       const isValid = await bcrypt.compare(password, AdminLogin.password);
       if (!isValid) {
@@ -74,7 +80,17 @@ const jwtVerify = async (req, res) => {
   if (!token) {
     return res.send(null);
   }
+  const decodeToken = jwt.verify(token,process.env.JWT_PRIVATE_KEY);
+  if(decodeToken){
+    const user = await Admin.findById(decodeToken._id).populate('admins.admin');
+    return res.send({user})
+  }
+
+  res.send(null);
 };
+
+
+
 const removeAdmin = async (req, res) => {
   const id = req.body.id;
   try {

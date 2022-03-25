@@ -22,12 +22,14 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router";
 import hide from "../../assets/hide.png";
 import del from "../../assets/del.png";
 import { Button } from "@mui/material";
-// import { addAdminHandler } from "../../hooks/useAuth";
-import { useDispatch } from "react-redux";
+import useAuth from "../../hooks/useAuth";
+
+
+import CustomTextField from "../../components/custom-text-field/CustomTextField.component";
+import CustomButton from "../../components/custom-button/CustomButton.component";
 
 const AddAdmin = () => {
   const [open, setOpen] = useState(false);
@@ -39,8 +41,10 @@ const AddAdmin = () => {
     password: "",
     cpassword: "",
   });
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+
+
+  const {registerAdmin} = useAuth();
+
   const onChangeHandler = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -48,7 +52,7 @@ const AddAdmin = () => {
     e.preventDefault();
     console.log(data);
     setOpen(false);
-    // addAdminHandler(data, dispatch, navigate);
+    registerAdmin(data);
   };
   return (
     <Flex
@@ -73,33 +77,34 @@ const AddAdmin = () => {
               CREATE NEW ADMIN
             </ModalHeader>
             <ModalCloseButton color="#FF3B81" />
-            <ModalBody>
-              <TextField
-                sx={{ width: "80%", margin: "1rem", color: "white" }}
+            <ModalBody
+              display="flex"
+              w="100%"
+              flexDirection="column"
+              alignItems="center"
+            >
+              <CustomTextField
                 id="standard-basic"
                 label="Name"
                 name="name"
                 variant="standard"
                 onChange={(e) => onChangeHandler(e)}
               />
-              <TextField
-                sx={{ width: "80%", margin: "1rem", color: "white" }}
+              <CustomTextField
                 id="standard-basic"
                 label="Phone Number"
                 name="phone"
                 variant="standard"
                 onChange={(e) => onChangeHandler(e)}
               />
-              <TextField
-                sx={{ width: "80%", margin: "1rem", color: "white" }}
+              <CustomTextField
                 id="standard-basic"
                 label="Email"
                 name="email"
                 variant="standard"
                 onChange={(e) => onChangeHandler(e)}
               />
-              <TextField
-                sx={{ width: "80%", margin: "1rem", color: "white" }}
+              <CustomTextField
                 id="standard-basic"
                 label="Password"
                 name="password"
@@ -107,8 +112,7 @@ const AddAdmin = () => {
                 onChange={(e) => onChangeHandler(e)}
                 type="password"
               />
-              <TextField
-                sx={{ width: "80%", margin: "1rem", color: "white" }}
+              <CustomTextField
                 id="standard-basic"
                 label="Comfirm Password"
                 name="cpassword"
@@ -119,13 +123,9 @@ const AddAdmin = () => {
             </ModalBody>
 
             <ModalFooter>
-              <Button
-                onClick={(e) => onSubmitHandler(e)}
-                variant="contained"
-                sx={{ backgroundColor: "#FF3B81" }}
-              >
+              <CustomButton onClick={(e) => onSubmitHandler(e)}>
                 Create Admin
-              </Button>
+              </CustomButton>
             </ModalFooter>
           </Flex>
         </ModalContent>
@@ -269,13 +269,9 @@ const AddAdmin = () => {
           </Tbody>
         </Table>
         <Flex mt="2rem" justifyContent="space-between" alignItems="center">
-          <Button
-            onClick={() => setOpen(!open)}
-            variant="contained"
-            sx={{ backgroundColor: "#FF3B81" }}
-          >
-            Create new Admin
-          </Button>
+          <CustomButton onClick={() => setOpen(!open)}>
+            CREATE NEW ADMIN
+          </CustomButton>
           <Box>4 Admins</Box>
         </Flex>
       </Box>

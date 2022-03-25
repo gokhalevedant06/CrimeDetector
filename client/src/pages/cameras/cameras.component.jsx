@@ -18,6 +18,8 @@ import { Icon } from "@iconify/react";
 import AddCameraModal from "./AddCameraModal";
 import { useNavigate } from "react-router-dom";
 
+import CustomButton from "../../components/custom-button/CustomButton.component";
+
 const MainPage = styled("div")(() => ({
   width: "100%",
   height: "100%",
@@ -103,23 +105,14 @@ const Cameras = () => {
             justifyContent="space-between"
             width="100%"
             alignItems="end"
+            padding="30px 10px 20px 10px"
           >
-            <Button
-              sx={{
-                margin: "30px 0 15px 10px",
-                backgroundColor: "#FF3B81",
-                color: "#fff",
-                padding: "5px 20px",
-                borderRadius: "5px",
-                "&:hover": {
-                  backgroundColor: "#FF3B81",
-                },
-              }}
-              onClick={toggleAddModal}
-            >
+            <CustomButton onClick={toggleAddModal}>
               CONNECT NEW CAMERA
-            </Button>
-            <Text color="#FF3B81" margin="0 15px 10px 0" fontWeight={400}>5 cameras</Text>
+            </CustomButton>
+            <Text color="#FF3B81" margin="0 15px 10px 0" fontWeight={400}>
+              5 cameras
+            </Text>
           </Flex>
         </Box>
       </Flex>

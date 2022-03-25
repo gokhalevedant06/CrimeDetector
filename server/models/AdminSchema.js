@@ -19,8 +19,11 @@ const adminSchema = new mongoose.Schema({
   },
   admins: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "ADMIN",
+      admin: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ADMIN",
+      },
+      password: String,
     },
   ],
 });

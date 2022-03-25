@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import { loginSuccess, logoutSuccess } from "../redux/slices/auth";
+import { loginSuccess, logoutSuccess,initialize } from "../redux/slices/auth";
 import { useSnackbar } from "notistack";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,7 @@ const useAuth = () => {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
   // const { enqueueSnackbar } = useSnackbar();
+  
 
   const login = useCallback(async (userData) => {
     const response = await axios.post("/admin/login", userData);
@@ -32,6 +33,7 @@ const useAuth = () => {
 
   const registerAdmin = useCallback(async (adminData) => {
     const response = await axios.post("/admin/addAdmin", adminData);
+    console.log(response,"admin respose");
     if (!response.data.ok) {
       console.log(response.data.message);
       // enqueueSnackbar(response.data.message, { variant: "error" });
@@ -41,11 +43,44 @@ const useAuth = () => {
     }
   }, []);
 
+  const initializeAuth = useCallback(async () => {
+    const accessToken = window.localStorage.getItem("accessToken");
+    if (isValidToken(accessToken)) {
+      setSession(accessToken);
+      const response = await axios.get("/admin/verify");
+      if (response) {
+        const { user } = response.data;
+        delete user.password;
+        dispatch(
+          initialize({
+            user,
+            isLoggedIn: true,
+          })
+        );
+      } else {
+        dispatch(
+          initialize({
+            user: null,
+            isLoggedIn: false,
+          })
+        );
+      }
+    } else {
+      dispatch(
+        initialize({
+          user: null,
+          isLoggedIn: false,
+        })
+      );
+    }
+  });
+
   return {
     login,
     isLoggedIn,
     logout,
-    registerAdmin
+    registerAdmin,
+    initializeAuth,
   };
 };
 

@@ -11,6 +11,7 @@ const isAdmin = async (req, res, next) => {
     const rootUser = await Admin.findById(decoded._id);
     if (rootUser) {
       req.user = rootUser;
+      console.log(rootUser,"in the middleware!");
       next();
     }
   } catch (err) {
