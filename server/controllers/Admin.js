@@ -92,10 +92,17 @@ const jwtVerify = async (req, res) => {
 
 
 const removeAdmin = async (req, res) => {
-  const id = req.body.id;
+  const {id} = req.params;
   try {
     const user = await Admin.findByIdAndDelete(id);
-    res.status(200).send({ ok: true, msg: "admin deleted successfully" });
+
+    await Admin.findOneAndUpdate(
+      {_id:req.user._id},
+      {$pull:{admins:{admin:user._id}}},
+      {safe:true,multi:false}
+    )
+
+    res.status(200).send({ ok: true, message: "admin deleted successfully" });
   } catch (e) {
     console.log(e);
   }

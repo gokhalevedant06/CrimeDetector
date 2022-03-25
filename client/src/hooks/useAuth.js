@@ -9,15 +9,15 @@ import axios from "../utils/axios";
 
 const useAuth = () => {
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state.auth);
-  // const { enqueueSnackbar } = useSnackbar();
+  const { isLoggedIn,user } = useSelector((state) => state.auth);
+  const { enqueueSnackbar } = useSnackbar();
   
 
   const login = useCallback(async (userData) => {
     const response = await axios.post("/admin/login", userData);
     console.log(response, "i am login response");
     if (!response.data.ok) {
-      // enqueueSnackbar(response.data.message, { variant: "error" });
+      enqueueSnackbar(response.data.message, { variant: "error" });
       return;
     } else {
       const { token, AdminLogin } = response.data;
@@ -36,10 +36,12 @@ const useAuth = () => {
     console.log(response,"admin respose");
     if (!response.data.ok) {
       console.log(response.data.message);
-      // enqueueSnackbar(response.data.message, { variant: "error" });
-      return;
+      enqueueSnackbar(response.data.message, { variant: "error" });
+      return false;
     } else {
       console.log(response);
+      enqueueSnackbar(response.data.message,{variant:'success'});
+      return true;
     }
   }, []);
 
@@ -75,12 +77,25 @@ const useAuth = () => {
     }
   });
 
+
+  const deleteAdmin = useCallback(async (id)=>{
+    const response = await axios.delete(`/admin/${id}`);
+    if(response.data.ok){
+      enqueueSnackbar(response.data.message,{variant:'success'});
+    }else{
+      enqueueSnackbar('Error deleting admin!',{variant:'error'});
+    }
+  },[])
+
+
   return {
     login,
     isLoggedIn,
     logout,
     registerAdmin,
     initializeAuth,
+    deleteAdmin,
+    user
   };
 };
 

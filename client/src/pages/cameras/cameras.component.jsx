@@ -52,13 +52,13 @@ const CameraOverview = ({ camera }) => {
         </Button>
       </Td>
       <Td>
-        <IconButton>
+        {/* <IconButton> */}
           <Icon
             icon="fluent:delete-20-regular"
-            fontSize="1.2em"
+            fontSize="1em"
             color="#cacaca"
           />
-        </IconButton>
+        {/* </IconButton> */}
       </Td>
     </Tr>
   );
@@ -83,6 +83,7 @@ const Cameras = () => {
           display="flex"
           flexDirection="column"
           alignItems="start"
+          padding="10px 20px"
         >
           <Table variant="striped" colorScheme="blackAlpha">
             <Thead>

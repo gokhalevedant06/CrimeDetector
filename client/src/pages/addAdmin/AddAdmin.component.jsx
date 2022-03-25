@@ -1,18 +1,6 @@
 import React, { useState } from "react";
 import { Flex, Text, Box } from "@chakra-ui/layout";
-import { Image } from "@chakra-ui/image";
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-} from "@chakra-ui/react";
-import TextField from "@mui/material/TextField";
-import dang from "../../assets/dang.png";
+import { Table, Thead, Tbody, Th } from "@chakra-ui/react";
 import {
   Modal,
   ModalOverlay,
@@ -22,18 +10,14 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
-import hide from "../../assets/hide.png";
-import del from "../../assets/del.png";
-import { Button } from "@mui/material";
 import useAuth from "../../hooks/useAuth";
-
 
 import CustomTextField from "../../components/custom-text-field/CustomTextField.component";
 import CustomButton from "../../components/custom-button/CustomButton.component";
+import AdminOverview from "./adminOverview.component";
 
 const AddAdmin = () => {
   const [open, setOpen] = useState(false);
-  const [delOpen, setDelOpen] = useState(false);
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -42,17 +26,18 @@ const AddAdmin = () => {
     cpassword: "",
   });
 
-
-  const {registerAdmin} = useAuth();
+  const { registerAdmin, user } = useAuth();
 
   const onChangeHandler = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
     console.log(data);
-    setOpen(false);
-    registerAdmin(data);
+    const d = await registerAdmin(data);
+    if (d) {
+      setOpen(false);
+    }
   };
   return (
     <Flex
@@ -130,43 +115,6 @@ const AddAdmin = () => {
           </Flex>
         </ModalContent>
       </Modal>
-      {/*<---------delete modal--------->*/}
-      <Modal isCentered isOpen={delOpen} onClose={() => setDelOpen(false)}>
-        <ModalOverlay />
-        <ModalContent backgroundColor="#22262E">
-          <Flex
-            justifyContent="center"
-            alignItems="center"
-            flexDirection="column"
-          >
-            <ModalHeader textAlign="center" color="#FF3B81">
-              <Image src={dang}></Image>
-            </ModalHeader>
-            <ModalCloseButton color="#FF3B81" />
-            <ModalBody color="white">
-              <Text fontSize="1.4rem">
-                Do you really want to delete this Admin?
-              </Text>
-            </ModalBody>
-
-            <ModalFooter>
-              <Button
-                variant="contained"
-                sx={{ backgroundColor: "#ffdce8", color: "black" }}
-                onClick={() => setDelOpen(false)}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                sx={{ backgroundColor: "#ec0053", marginLeft: "1rem" }}
-              >
-                Delete
-              </Button>
-            </ModalFooter>
-          </Flex>
-        </ModalContent>
-      </Modal>
 
       <Text fontWeight="800" color="#FF3B81" fontSize="3rem">
         Admins
@@ -182,97 +130,16 @@ const AddAdmin = () => {
             <Th> </Th>
           </Thead>
           <Tbody>
-            <Tr>
-              <Td>1</Td>
-              <Td>Admin Number One</Td>
-              <Td>admin1@gmai.com</Td>
-              <Td>**********</Td>
-              <Td>
-                <Image src={hide}></Image>
-              </Td>
-              <Td>
-                <Image
-                  cursor="pointer"
-                  onClick={() => setDelOpen(!delOpen)}
-                  src={del}
-                ></Image>
-              </Td>
-            </Tr>
-
-            <Tr>
-              <Td>1</Td>
-              <Td>Admin Number One</Td>
-              <Td>admin1@gmai.com</Td>
-              <Td>**********</Td>
-              <Td>
-                <Image src={hide}></Image>
-              </Td>
-              <Td>
-                <Image
-                  cursor="pointer"
-                  onClick={() => setDelOpen(!delOpen)}
-                  src={del}
-                ></Image>
-              </Td>
-            </Tr>
-
-            <Tr>
-              <Td>1</Td>
-              <Td>Admin Number One</Td>
-              <Td>admin1@gmai.com</Td>
-              <Td>**********</Td>
-              <Td>
-                <Image src={hide}></Image>
-              </Td>
-              <Td>
-                <Image
-                  cursor="pointer"
-                  onClick={() => setDelOpen(!delOpen)}
-                  src={del}
-                ></Image>
-              </Td>
-            </Tr>
-
-            <Tr>
-              <Td>1</Td>
-              <Td>Admin Number One</Td>
-              <Td>admin1@gmai.com</Td>
-              <Td>**********</Td>
-              <Td>
-                <Image src={hide}></Image>
-              </Td>
-              <Td>
-                <Image
-                  cursor="pointer"
-                  onClick={() => setDelOpen(!delOpen)}
-                  src={del}
-                ></Image>
-              </Td>
-            </Tr>
-
-            <Tr>
-              <Td>1</Td>
-              <Td>Admin Number One</Td>
-              <Td>admin1@gmai.com</Td>
-              <Td>**********</Td>
-              <Td>
-                <Image src={hide}></Image>
-              </Td>
-              <Td>
-                <Image
-                  cursor="pointer"
-                  onClick={() => setDelOpen(!delOpen)}
-                  src={del}
-                ></Image>
-              </Td>
-            </Tr>
+            {user.admins.map(({ admin, password }, idx) => (
+              <AdminOverview admin={admin} password={password} key={idx} />
+            ))}
           </Tbody>
         </Table>
         <Flex mt="2rem" justifyContent="space-between" alignItems="center">
           <CustomButton onClick={() => setOpen(!open)}>
             CREATE NEW ADMIN
           </CustomButton>
-          <Box>4 Admins</Box>
+          <Box>{user?.admins.length} Admins</Box>
         </Flex>
       </Box>
     </Flex>

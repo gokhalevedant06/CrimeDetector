@@ -19,11 +19,11 @@ const adminSchema = new mongoose.Schema({
   },
   admins: [
     {
-      admin: {
+      admin:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "ADMIN",
+      ref: "ADMIN",
       },
-      password: String,
+      password:String
     },
   ],
 });
