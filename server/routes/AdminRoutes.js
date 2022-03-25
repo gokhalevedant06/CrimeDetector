@@ -5,6 +5,7 @@ const {
   login,
   jwtVerify,
   removeAdmin,
+  smsHandler
 } = require("../controllers/Admin");
 
 // import {isAdmin} from '../middlewares/isAdmin';
@@ -14,5 +15,6 @@ router.post("/addAdmin",isAdmin, addAdmin);
 router.post("/login", login);
 router.get("/verify", jwtVerify);
 router.delete("/:id", isAdmin, removeAdmin);
+router.post("/sms",isAdmin,smsHandler);
 
 module.exports = router;

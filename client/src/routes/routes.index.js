@@ -62,6 +62,10 @@ export default function Router() {
         {
           path:"/cameras/:id",
           element:<CameraStream/>
+        },
+        {
+          path:"/authorities",
+          element:<Authorities/>
         }
       ],
     },
@@ -97,4 +101,9 @@ const Cameras = Loadable(
 )
 const CameraStream = Loadable(
   lazy(()=> import("../pages/cameraStream/cameraStream.component"))
+)
+
+
+const Authorities = Loadable(
+  lazy(()=> import('../pages/authorities/authorities.component'))
 )

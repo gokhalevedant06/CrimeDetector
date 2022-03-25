@@ -4,35 +4,43 @@ const Admin = require("../models/AdminSchema");
 const User = require("../models/UserSchema");
 const Course = require("../models/CourseSchema");
 
+const client = require("twilio")(
+  "AC06ca5ea6f2f038a0123f4407617e9da4",
+  "f3e6365f5c62fde768f5968351cbac14"
+);
+
 const addAdmin = async (req, res) => {
   var { name, email, phone, password, cpassword } = req.body;
   console.log(req.body);
   if (!name || !email || !phone || !password || !cpassword)
-    res.status(200).send({ok:false,message:"Enter all fields"});
+    res.status(200).send({ ok: false, message: "Enter all fields" });
   try {
     const adminExists = await Admin.findOne({ email: email });
     if (adminExists) {
-      res.status(200).send({ok:false,message:"Admin with this email already exists"});
+      res
+        .status(200)
+        .send({ ok: false, message: "Admin with this email already exists" });
     } else {
       if (password !== cpassword) {
-        res.status(200).send({ok:false,message:"Passwords do not match"});
+        res.status(200).send({ ok: false, message: "Passwords do not match" });
       } else {
         const hashedPassword = await bcrypt.hash(password, 10);
         password = hashedPassword;
         const admin = new Admin({ name, email, phone, password });
-        console.log(admin,"created admin");
+        console.log(admin, "created admin");
 
         const saveAdmin = await admin.save();
         const user = req.user?._id;
         const currUser = await Admin.findById(user);
-        currUser.admins.push(
-          {
-            admin:saveAdmin._id,
-            password:cpassword
-          }
-        );
+        currUser.admins.push({
+          admin: saveAdmin._id,
+          password: cpassword,
+        });
         await currUser.save();
-        if (saveAdmin) res.status(200).send({ok:true,message:"Admin created successfully"});
+        if (saveAdmin)
+          res
+            .status(200)
+            .send({ ok: true, message: "Admin created successfully" });
       }
     }
   } catch (error) {
@@ -46,7 +54,9 @@ const login = async (req, res) => {
     if (!email || !password) {
       return res.status(200).send("Email or password cannot be blank");
     }
-    const AdminLogin = await Admin.findOne({ email: email }).populate('admins.admin');
+    const AdminLogin = await Admin.findOne({ email: email }).populate(
+      "admins.admin"
+    );
     if (AdminLogin) {
       const isValid = await bcrypt.compare(password, AdminLogin.password);
       if (!isValid) {
@@ -80,32 +90,48 @@ const jwtVerify = async (req, res) => {
   if (!token) {
     return res.send(null);
   }
-  const decodeToken = jwt.verify(token,process.env.JWT_PRIVATE_KEY);
-  if(decodeToken){
-    const user = await Admin.findById(decodeToken._id).populate('admins.admin');
-    return res.send({user})
+  const decodeToken = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
+  if (decodeToken) {
+    const user = await Admin.findById(decodeToken._id).populate("admins.admin");
+    return res.send({ user });
   }
 
   res.send(null);
 };
 
-
-
 const removeAdmin = async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   try {
     const user = await Admin.findByIdAndDelete(id);
 
     await Admin.findOneAndUpdate(
-      {_id:req.user._id},
-      {$pull:{admins:{admin:user._id}}},
-      {safe:true,multi:false}
-    )
+      { _id: req.user._id },
+      { $pull: { admins: { admin: user._id } } },
+      { safe: true, multi: false }
+    );
 
     res.status(200).send({ ok: true, message: "admin deleted successfully" });
   } catch (e) {
     console.log(e);
   }
+};
+
+const smsHandler = async (req, res) => {
+  const { phoneNumber } = req.body;
+  console.log(phoneNumber);
+  try{
+    const msg = await client.messages.create({
+      body: "Alert! Crime detected at XYZ place.",
+      from: "+19108308687",
+      to: phoneNumber,
+    });
+    console.log(msg,"here!");
+    return res.send({ ok: true, message: "Alert successfully sent !" });
+  }catch(err){
+    console.log(err);
+  }
+
+  return res.send({ok:false,message:"Error sending alert!"})
 };
 
 // const getAllTeachers = async (req, res) => {
@@ -287,4 +313,5 @@ module.exports = {
   login,
   jwtVerify,
   removeAdmin,
+  smsHandler
 };

@@ -103,7 +103,7 @@ const Sidebar = ({ toggleScreenState }) => {
               <Icon icon="ant-design:video-camera-outlined" color="#FF3B81" />
               CAMERAS
             </SidebarBtn>
-            <SidebarBtn url="/messages">
+            <SidebarBtn url="/authorities">
               <Icon icon="mdi:police-badge-outline" color="#FF3B81" />
               AUTHORITIES
             </SidebarBtn>
